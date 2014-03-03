@@ -22,7 +22,7 @@ class Olympics(teamList:Iterable[Team], eventList:Iterable[Event]) {
     }
   }
 
-  def getScore(eventType:String) = eventMap(eventType).scores
+  //def getScore(eventType:String) = eventMap(eventType).scores
 
   //todo we probably need another argument here to actually set the score
   def setScore(eventType:String) = ???
