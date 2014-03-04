@@ -21,7 +21,7 @@ object Event {
 class Event(val name:String) extends Actor {
   var score:String = ""
 
-  override def receive: Actor.Receive = {
+  def receive: Actor.Receive = {
     case SetEventScore(newScore) => score = newScore
     case GetEventScore => sender() ! EventScore(name, score)
   }
@@ -37,7 +37,7 @@ class EventRoster(events:Iterable[String]) extends Actor {
     context.actorOf(Event.props(eventName), eventName)
   }
 
-  override def receive: Actor.Receive = {
+  def receive: Actor.Receive = {
     case EventMessage(eventName, message) => context.child(eventName) match {
       case Some(event) => event.tell(message, sender())
       case None => //todo DO SOMETHING!!!
