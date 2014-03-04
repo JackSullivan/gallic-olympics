@@ -23,7 +23,7 @@ class CacofonixListener extends Actor {
   val teamPath = context.system.actorSelection(context.system./("teams"))
   val eventPath = context.system.actorSelection(context.system./("events"))
 
-  override def receive: Actor.Receive = {
+  def receive: Actor.Receive = {
     case teamMessage:TeamMessage => teamPath ! teamMessage
     case eventMessage:EventMessage => eventPath ! eventMessage
   }

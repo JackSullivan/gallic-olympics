@@ -16,7 +16,7 @@ class TabletRequestRouter extends Actor {
     Router(RoundRobinRoutingLogic(), routees)
   }
 
-  override def receive: Actor.Receive = {
+  def receive: Actor.Receive = {
     case message:ReadOnlyMessage => router.route(message, sender())
   }
 }
@@ -25,7 +25,7 @@ class TabletRequestWorker extends Actor {
   val teamPath = context.system.actorSelection(context.system./("teams"))
   val eventPath = context.system.actorSelection(context.system./("events"))
 
-  override def receive: Actor.Receive = {
+  def receive: Actor.Receive = {
     case teamMessage:TeamMessage => teamPath ! teamMessage
     case eventMessage:EventMessage => eventPath ! eventMessage
     case tally:MedalTally => //todo DO SOMETHING
