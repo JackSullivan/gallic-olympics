@@ -15,6 +15,7 @@ class Olympics(teams:Iterable[String], events:Iterable[String]) {
   system.actorOf(EventRoster(events), "events")
   system.actorOf(Props[CacofonixListener], "cacofonix")
   system.actorOf(Props[TabletRequestRouter], "router")
+  system.actorOf(EventSubscriptions(events), "subscriberRoster")
 
 
 }

@@ -19,10 +19,14 @@ object Event {
 
 
 class Event(val name:String) extends Actor {
+  val subscriberPath = context.system./("subscriberRoster")
   var score:String = ""
 
   def receive: Actor.Receive = {
-    case SetEventScore(newScore) => score = newScore
+    case SetEventScore(newScore) => {
+      score = newScore
+      context.system.actorSelection(subscriberPath./(name)) ! EventScore(name, score)
+    }
     case GetEventScore => sender() ! EventScore(name, score)
   }
 }

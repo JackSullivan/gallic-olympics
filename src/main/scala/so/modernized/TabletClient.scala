@@ -11,6 +11,7 @@ import scala.concurrent.duration._
 
 class TabletClient(system:ActorSystem, val id:String = java.util.UUID.randomUUID().toString) {
   private val router = system.actorSelection("user/router")
+  private val subscriber = system.actorSelection("user/subscriberRoster")
 
   private val inbox = Inbox.create(system)
 
@@ -28,7 +29,15 @@ class TabletClient(system:ActorSystem, val id:String = java.util.UUID.randomUUID
 
     s"Team: $teamName, Gold: $gold, Silver: $silver, Bronze: $bronze"
   }
-  def registerClient(event:String) = ???
+  def registerClient(event:String) = {
+    subscriber.tell(Subscribe(event), inbox.getRef())
+  }
+
+  def reception = {
+    (1 to 10).foreach{ _ =>
+      println(inbox.receive(1.seconds))
+    }
+  }
 }
 
 object TabletClient {
@@ -38,10 +47,19 @@ object TabletClient {
     val client = new TabletClient(olympics.system)
 
     val cacofonix = new CacofonixClient(olympics.system)
+    client.registerClient("Curling")
+
+    Thread.sleep(5000)
+
     cacofonix.setScore("Curling", "Gaul 1, Rome 2, Carthage 0")
     cacofonix.incrementMedalTally("Lacadaemon", Gold)
 
     Thread.sleep(5000)
+    cacofonix.setScore("Curling", "Gaul 1, Rome 2, Carthage 0")
+    cacofonix.setScore("Curling", "Gaul 2, Rome 2, Carthage 0")
+    cacofonix.setScore("Curling", "Gaul 2, Rome 2, Carthage 1")
+
+    client.reception
 
     println(client.getMedalTally("Gaul"))
     println(client.getMedalTally("Lacadaemon"))
