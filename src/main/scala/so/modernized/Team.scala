@@ -44,8 +44,8 @@ class TeamRoster(teams:Iterable[String]) extends Actor {
 
   override def receive: Actor.Receive = {
     case TeamMessage(teamName, message) => context.child(teamName) match {
-      case Some(team) => team.tell(message, sender())
-      case None => //todo DO SOMETHING!!
+        case Some(team) => team.tell(message, sender())
+        case None => println("Team not found") //todo DO SOMETHING!!
     }
   }
 }
