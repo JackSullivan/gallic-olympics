@@ -7,7 +7,7 @@ import akka.actor.{Props, Actor}
  */
 trait TeamMessageType
 case class IncrementMedals(medalType:MedalType) extends TeamMessageType
-case object GetMedalTally extends TeamMessageType
+case object GetMedalTally extends TeamMessageType with ReadOnlyMessage
 
 case class TeamMessage(teamName:String, message:TeamMessageType)
 
@@ -30,6 +30,10 @@ class Team(val name:String) extends Actor {
     }
     case GetMedalTally => sender ! MedalTally(name, gold, silver, bronze)
   }
+}
+
+object TeamRoster{
+  def apply(teams:Iterable[String]):Props = Props(new TeamRoster(teams))
 }
 
 class TeamRoster(teams:Iterable[String]) extends Actor {

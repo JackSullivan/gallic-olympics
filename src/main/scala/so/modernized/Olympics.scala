@@ -1,29 +1,30 @@
 package so.modernized
 
+import akka.actor.{Props, Actor, ActorSystem}
+
 /**
  * @author John Sullivan
  */
-class Olympics(teamList:Iterable[Team], eventList:Iterable[Event]) {
+trait ReadOnlyMessage
 
-  private val teamMap:Map[String,Team] = teamList.map{team => team.name -> team}.toMap
-  private val eventMap:Map[String,Event] = eventList.map{event => event.name -> event}.toMap
+class Olympics(teams:Iterable[String], events:Iterable[String]) {
 
-  def getMedalTally(teamName:String) = {
-    val team = teamMap(teamName)
-    (team.gold, team.silver, team.bronze)
+  val system = ActorSystem("olympics")
+
+  system.actorOf(TeamRoster(teams), "teams")
+  system.actorOf(EventRoster(events), "events")
+  system.actorOf(Props[CacofonixListener], "cacofonix")
+  system.actorOf(Props[TabletRequestRouter], "router")
+
+
+}
+
+class CacofonixListener extends Actor {
+  val teamPath = context.system.actorSelection(context.system./("teams"))
+  val eventPath = context.system.actorSelection(context.system./("events"))
+
+  override def receive: Actor.Receive = {
+    case teamMessage:TeamMessage => teamPath ! teamMessage
+    case eventMessage:EventMessage => eventPath ! eventMessage
   }
-
-  def incrementMedalTally(teamName:String, medalType:MedalType) {
-    val team = teamMap(teamName)
-    medalType match {
-      case Gold => team.gold += 1
-      case Silver => team.silver += 1
-      case Bronze => team.bronze += 1
-    }
-  }
-
-  //def getScore(eventType:String) = eventMap(eventType).scores
-
-  //todo we probably need another argument here to actually set the score
-  def setScore(eventType:String) = ???
 }

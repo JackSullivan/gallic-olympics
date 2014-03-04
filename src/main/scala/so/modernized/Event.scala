@@ -7,7 +7,7 @@ import akka.actor.{Props, Actor}
  */
 trait EventMessageType
 case class SetEventScore(newScore:String) extends EventMessageType
-case object GetEventScore extends EventMessageType
+case object GetEventScore extends EventMessageType with ReadOnlyMessage
 
 case class EventMessage(eventName:String, message:EventMessageType)
 
@@ -25,6 +25,10 @@ class Event(val name:String) extends Actor {
     case SetEventScore(newScore) => score = newScore
     case GetEventScore => sender() ! EventScore(name, score)
   }
+}
+
+object EventRoster {
+  def apply(events:Iterable[String]):Props = Props(new EventRoster(events))
 }
 
 class EventRoster(events:Iterable[String]) extends Actor {
