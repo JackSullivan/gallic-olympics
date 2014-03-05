@@ -25,11 +25,6 @@ class TabletClient(remoteAddress: Address) {
 
   private val router = Await.result(system.actorSelection(remote + "/user/router").resolveOne(), 600.seconds)
   private val subscriber = Await.result(system.actorSelection(remote + "/user/subscriberRoster").resolveOne(), 600.seconds)
-
-
-  //private val router = olympics.router //= system.actorSelection("user/router")
-  //private val subscriber = olympics.subscriber //system.actorSelection("user/subscriberRoster")
-
   private val printer = system.actorOf(Props[TabletPrinter])
 
   def getScore(event:String) {
@@ -82,9 +77,9 @@ object Cacofonix {
 object RemoteTabletClient {
   def main(args: Array[String]) {
     val client = new TabletClient(Address("akka.tcp","olympics", "127.0.0.1",2552))
-    client.registerClient("Biathlon")
+    client.registerClient("Cycling")
     (0 until 10).foreach({ _ =>
-      client.getScore("Cycling")
+      client.getScore("Biathlon")
     })
   }
 }

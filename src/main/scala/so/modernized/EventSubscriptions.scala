@@ -36,7 +36,7 @@ class EventSubscriptions(events:Iterable[String]) extends Actor {
   def receive: Actor.Receive = {
     case Subscribe(eventName) => context.child(eventName) match {
       case Some(event) => event.tell(Subscribe(eventName), sender)
-      case None => //todo DO SOMETHING!!
+      case None => sender ! UnknownEvent(eventName)
     }
   }
 }
