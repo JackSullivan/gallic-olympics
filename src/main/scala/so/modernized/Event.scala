@@ -13,6 +13,8 @@ case class EventMessage(eventName:String, message:EventMessageType)
 
 case class EventScore(eventName:String, score:String)
 
+case class UnknownEvent(eventName: String)
+
 object Event {
   def props(eventName:String):Props = Props(new Event(eventName))
 }
@@ -44,7 +46,7 @@ class EventRoster(events:Iterable[String]) extends Actor {
   def receive: Actor.Receive = {
     case EventMessage(eventName, message) => { context.child(eventName) match {
       case Some(event) => event.tell(message, sender())
-      case None => {println("I just got a non event")}//todo DO SOMETHING!!!
+      case None => sender ! UnknownEvent(eventName)
     }
     }
   }

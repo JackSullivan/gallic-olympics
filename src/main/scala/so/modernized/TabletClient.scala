@@ -47,6 +47,7 @@ class TabletPrinter extends Actor {
   def receive: Actor.Receive = {
     case EventScore(event, score) => println(s"Event: $event, Score: $score")
     case MedalTally(team, gold, silver, bronze) => println(s"Team: $team, Gold: $gold, Silver: $silver, Bronze: $bronze")
+    case UnknownEvent(eventName) => println(s"There are not $eventName competitions at these olympics.")
   }
 }
 
@@ -83,7 +84,7 @@ object RemoteTabletClient {
     val client = new TabletClient(Address("akka.tcp","olympics", "127.0.0.1",2552))
     client.registerClient("Biathlon")
     (0 until 10).foreach({ _ =>
-      client.getScore("Curling")
+      client.getScore("Cycling")
     })
   }
 }
