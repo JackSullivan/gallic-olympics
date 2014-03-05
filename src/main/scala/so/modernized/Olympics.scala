@@ -1,6 +1,7 @@
 package so.modernized
 
 import akka.actor.{Props, Actor, ActorSystem}
+import com.typesafe.config.ConfigFactory
 
 /**
  * @author John Sullivan
@@ -9,14 +10,19 @@ trait ReadOnlyMessage
 
 class Olympics(teams:Iterable[String], events:Iterable[String]) {
 
-  val system = ActorSystem("olympics")
+  private val system = ActorSystem("olympics", ConfigFactory.load("server"))
 
   system.actorOf(TeamRoster(teams), "teams")
   system.actorOf(EventRoster(events), "events")
   system.actorOf(Props[CacofonixListener], "cacofonix")
   system.actorOf(Props[TabletRequestRouter], "router")
   system.actorOf(EventSubscriptions(events), "subscriberRoster")
-
+  /*
+  val router = system.actorSelection("user/router")
+  val subscriber = system.actorSelection("user/subscriberRoster")
+  val listener = system.actorSelection("user/cacofonix")
+  */
+  def shutdown() {system.shutdown()}
 
 }
 
