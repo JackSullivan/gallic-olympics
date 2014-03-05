@@ -1,0 +1,41 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\begin{document}
+\title{LAB 1}
+\author{Jack Sullivan and Ari Kobren}
+\maketitle
+
+\section{Client Pull Architecture}
+Our message passing system is built as a hierarchy. We use a top-level
+\emph{Olympics} class for organization.  This class communicates with
+5 \emph{actors}:
+\begin{itemize}
+  \item \textbf{TeamRoster} - The \emph{TeamRoster} is able to send
+    messages to a number of \emph{Team} classes. When the
+    \emph{TeamRoster} receives a message containing a particular team
+    name, it sends a message to the relevant \emph{Team}.
+  \item \textbf{EventRoster} - The \emph{EventRoster} is very similar
+    to the \emph{TeamRoster}: the \emph{EventRoster} is also able to
+    communicate with a number \emph{Event} classes; when it receives a
+    message containing a particular event type, it sends that message
+    to the relevant \emph{Event}.
+  \item \textbf{TabletRequestRouter} - The \emph{TabletRequestRouter}
+    serves as a router that helps spread client request to various
+    workers.  When it receives a message, it distributes the message,
+    using a round robin schedule, to one of many \emph{TabletRequestWorker}.
+  \item \textbf{CacofonixListener} - The \emph{CacofonixListener} is
+    very similar to the \emph{TabletRequestRouter}: when it receives a
+    message, it determines whether that message is a
+    \emph{TeamMessage} or an \emph{EventMessage} and sends that
+    message to the relevant actors.
+  \item \textbf{EventSubscription} -
+\end{itemize}
+
+\section{Softeware}
+We've built our system on top of the Scala (Akka) \emph{actors}
+library.  This library provides a message passing hierarcical
+architecture for the scala programming language.
+
+\end{document}
