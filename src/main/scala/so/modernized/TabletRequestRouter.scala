@@ -17,6 +17,11 @@ class TabletRequestRouter extends Actor {
   }
 
   def receive: Actor.Receive = {
+    case Terminated(a) =>
+      router = router.removeRoutee(a)
+      val r = context.actorOf(Props[TabletRequestWorker])
+      context watch r
+      router = router.addRoutee(r)
     case message => router.route(message, sender())
   }
 }
