@@ -1,6 +1,6 @@
 package so.modernized
 
-import akka.actor.{Props, Actor}
+import akka.actor.{Terminated, Props, Actor}
 import akka.routing.{RoundRobinRoutingLogic, Router, ActorRefRoutee}
 
 /**

@@ -9,12 +9,16 @@ import scala.concurrent.duration._
 /**
  * @author John Sullivan
  */
-class TabletClient(olympics:Olympics) {
+class TabletClient(remoteAddress: Address) {
+
+  def this(olympics: Olympics) = {
+    this(Address("akka.tcp","olympics", "127.0.0.1",2552))
+  }
 
   implicit val timeout = Timeout(600.seconds)
 
   val system = ActorSystem("client", ConfigFactory.load("client"))
-  val remote = Address("akka.tcp","olympics", "127.0.0.1",2552).toString
+  val remote = remoteAddress.toString
   //println(remote)
 
   def shutdown() {system.shutdown()}
@@ -53,6 +57,48 @@ object Remote {
   }
 }
 
+object OlympicServer {
+  def main(args: Array[String]) {
+    val olympics = new Olympics(Seq("Gaul", "Rome", "Carthage", "Pritannia", "Lacadaemon"), Seq("Curling", "Biathlon", "Piathlon"))
+    println("Let the games begin!")
+
+//    olympics.shutdown()
+  }
+}
+
+object Cacofonix {
+  def main(args: Array[String]) = {
+    val cacofonix = new CacofonixClient(Address("akka.tcp","olympics", "127.0.0.1",2552))
+
+    println("Let the games begin!")
+    cacofonix.setScore("Biathlon", "Gaul 1, Rome 0, Carthage 0")
+    cacofonix.setScore("Curling", "Gaul 1, Rome 0, Carthage 1")
+    cacofonix.setScore("Curling", "Gaul 3, Rome 2, Carthage 1")
+    cacofonix.setScore("Biathlon", "Gaul 2, Rome 0, Carthage 0")
+  }
+}
+
+object RemoteTabletClient {
+  def main(args: Array[String]) {
+    val client = new TabletClient(Address("akka.tcp","olympics", "127.0.0.1",2552))
+    client.registerClient("Biathlon")
+    (0 until 10).foreach({ _ =>
+      client.getScore("Curling")
+    })
+  }
+}
+
+object RemoteTableClient2 {
+  def main(args: Array[String]) {
+    val client = new TabletClient(Address("akka.tcp","olympics", "127.0.0.1",2552))
+    client.registerClient("Biathlon")
+    (0 until 10).foreach({ _ =>
+      Thread.sleep(1000)
+      client.getScore("Curling")
+    })
+  }
+}
+
 object TabletClient {
   def main(args:Array[String]) {
     val olympics = new Olympics(Seq("Gaul", "Rome", "Carthage", "Pritannia", "Lacadaemon"), Seq("Curling", "Biathlon", "Piathlon"))
@@ -69,11 +115,12 @@ object TabletClient {
     cacofonix.setScore("Curling", "Gaul 3, Rome 2, Carthage 0")
     cacofonix.setScore("Curling", "Gaul 3, Rome 2, Carthage 1")
 
-    println(client.getMedalTally("Gaul"))
-    println(client.getMedalTally("Lacadaemon"))
-    println(client.getScore("Curling"))
+    client.getMedalTally("Gaul")
+    client.getMedalTally("Lacadaemon")
+    client.getScore("Curling")
 
-    //client.shutdown()
-    //olympics.shutdown()
+//    Thread.sleep(5000)
+//    client.shutdown()
+//    olympics.shutdown()
   }
 }

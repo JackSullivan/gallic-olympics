@@ -42,9 +42,10 @@ class EventRoster(events:Iterable[String]) extends Actor {
   }
 
   def receive: Actor.Receive = {
-    case EventMessage(eventName, message) => context.child(eventName) match {
+    case EventMessage(eventName, message) => { context.child(eventName) match {
       case Some(event) => event.tell(message, sender())
-      case None => //todo DO SOMETHING!!!
+      case None => {println("I just got a non event")}//todo DO SOMETHING!!!
+    }
     }
   }
 }

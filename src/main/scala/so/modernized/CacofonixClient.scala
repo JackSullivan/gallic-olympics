@@ -1,21 +1,23 @@
 package so.modernized
 
-import akka.actor.{Address, ActorSystem}
+import akka.actor.{Deploy, Props, Address, ActorSystem}
 import com.typesafe.config.ConfigFactory
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import akka.util.Timeout
+import akka.remote.RemoteScope
 
 /**
  * @author John Sullivan
  */
-class CacofonixClient(olympics:Olympics) {
+class CacofonixClient(olympicsAddress: Address) {
+
+  def this(olympics: Olympics) = this(Address("akka.tcp","olympics", "127.0.0.1",2552))
 
   implicit val timeout = Timeout(600.seconds)
 
   val system = ActorSystem("client", ConfigFactory.load("client"))
-  val remote = Address("akka.tcp","olympics", "127.0.0.1",2552).toString
-  //println(remote)
+  val remote = olympicsAddress.toString
 
   def shutdown() {system.shutdown()}
 
