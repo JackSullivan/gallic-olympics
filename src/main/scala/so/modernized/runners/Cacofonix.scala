@@ -9,7 +9,7 @@ import scala.collection.mutable
  * @author John Sullivan
  */
 object Cacofonix {
-  def main(args: Array[String]) = {
+  def main(args: Array[String]) {
     val host = args(0)
     val port = args(1).toInt
     val events = args(2).split('|')
@@ -21,6 +21,7 @@ object Cacofonix {
     events.foreach(event => eventToScore.update(event, {
       val scores = new mutable.HashMap[String, Int]
       teams.foreach(team => scores.update(team, 0))
+      scores
     })
     )
 
