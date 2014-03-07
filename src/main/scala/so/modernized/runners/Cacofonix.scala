@@ -1,6 +1,6 @@
 package so.modernized.runners
 
-import so.modernized.CacofonixClient
+import so.modernized.{Gold, Silver, Bronze, CacofonixClient}
 import akka.actor.Address
 import scala.util.Random
 import scala.collection.mutable
@@ -31,10 +31,18 @@ object Cacofonix {
       val team = teams(Random.nextInt(teams.length))
       val scores = eventToScore(event)
 
-      val score = scores(team)
-      scores.update(team, score + 1)
+      if (Random.nextBoolean()) {
+        val score = scores(team)
+        scores.update(team, score + 1)
+        cacofonix.setScore(event, scores.toSeq.map({ case (t,s) => t + " " + s }).mkString(", "))
+      } else {
+        cacofonix.incrementMedalTally(team, Random.nextInt(3) match {
+          case 0 => Bronze
+          case 1 => Silver
+          case 2 => Gold
+        })
+      }
 
-      cacofonix.setScore(event, scores.toSeq.map({ case (t,s) => t + " " + s }).mkString(", "))
       Thread.sleep(1000)
     })
   }
