@@ -8,7 +8,10 @@ import akka.actor.Address
  */
 object Cacofonix {
   def main(args: Array[String]) = {
-    val cacofonix = new CacofonixClient(Address("akka.tcp","olympics", "127.0.0.1",2552))
+    val host = args(0)
+    val port = args(1).toInt
+
+    val cacofonix = new CacofonixClient(Address("akka.tcp","olympics", host, port))
 
     println("Let the games begin!")
     cacofonix.setScore("Biathlon", "Gaul 1, Rome 0, Carthage 0")
