@@ -24,7 +24,9 @@ class TabletClient(remoteAddress: Address) {
 
   def shutdown() {system.shutdown()}
 
-  private val router = Await.result(system.actorSelection(remote + "/user/router").resolveOne(), 600.seconds)
+  println(s"Connecting to remote server at $remote")
+
+  private val router = Await.result(system.actorSelection(remote + "/user/blouter").resolveOne(), 600.seconds)
   private val subscriber = Await.result(system.actorSelection(remote + "/user/subscriberRoster").resolveOne(), 600.seconds)
   private val printer = system.actorOf(Props[TabletPrinter])
 

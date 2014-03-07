@@ -8,7 +8,7 @@ import com.typesafe.config.ConfigFactory
  */
 class Olympics(teams:Iterable[String], events:Iterable[String]) {
 
-  private val system = ActorSystem("olympics", ConfigFactory.load("server"))
+  val system = ActorSystem("olympics", ConfigFactory.load("server"))
 
   system.actorOf(TeamRoster(teams), "teams")
   system.actorOf(EventRoster(events), "events")
