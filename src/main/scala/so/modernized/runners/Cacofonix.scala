@@ -18,13 +18,19 @@ object Cacofonix {
     val cacofonix = new CacofonixClient(Address("akka.tcp","olympics", host, port))
     val eventToScore = new mutable.HashMap[String, mutable.HashMap[String, Int]]
 
+    events.foreach(event => eventToScore.update(event, {
+      val scores = new mutable.HashMap[String, Int]
+      teams.foreach(team => scores.update(team, 0))
+    })
+    )
+
     println("Cacofonix is here and ready to report on the games!")
     (0 until 100).foreach(_ => {
       val event = events(Random.nextInt(events.length))
       val team = teams(Random.nextInt(teams.length))
-      val scores = eventToScore.getOrElseUpdate(event, new mutable.HashMap[String, Int])
+      val scores = eventToScore(event)
 
-      val score = scores.getOrElse(team, 0)
+      val score = scores(team)
       scores.update(team, score + 1)
 
       cacofonix.setScore(event, scores.toSeq.map({ case (t,s) => t + " " + s }).mkString(", "))
