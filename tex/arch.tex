@@ -2,40 +2,129 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{enumerate}
+\usepackage{fullpage}
 \begin{document}
 \title{LAB 1}
 \author{Jack Sullivan and Ari Kobren}
 \maketitle
 
-\section{Client Pull Architecture}
+\section{Olympics Main Components}
 Our message passing system is built as a hierarchy. We use a top-level
-\emph{Olympics} class for organization.  This class communicates with
-5 \emph{actors}:
-\begin{itemize}
-  \item \textbf{TeamRoster} - The \emph{TeamRoster} is able to send
-    messages to a number of \emph{Team} classes. When the
-    \emph{TeamRoster} receives a message containing a particular team
-    name, it sends a message to the relevant \emph{Team}.
-  \item \textbf{EventRoster} - The \emph{EventRoster} is very similar
-    to the \emph{TeamRoster}: the \emph{EventRoster} is also able to
-    communicate with a number \emph{Event} classes; when it receives a
-    message containing a particular event type, it sends that message
-    to the relevant \emph{Event}.
-  \item \textbf{TabletRequestRouter} - The \emph{TabletRequestRouter}
-    serves as a router that helps spread client request to various
-    workers.  When it receives a message, it distributes the message,
-    using a round robin schedule, to one of many \emph{TabletRequestWorker}.
-  \item \textbf{CacofonixListener} - The \emph{CacofonixListener} is
-    very similar to the \emph{TabletRequestRouter}: when it receives a
-    message, it determines whether that message is a
-    \emph{TeamMessage} or an \emph{EventMessage} and sends that
-    message to the relevant actors.
-  \item \textbf{EventSubscription} -
-\end{itemize}
+\emph{Olympics} class for organization.  This class doesn't hold any
+information about teams or scores but establishes the system in which
+all messages are passed.  In particular, the system established by the
+\emph{Olympics} class includes 5 child \emph{actors}: a
+\emph{TeamRoster}, an \emph{EventRoster}, a
+\emph{TabletRequestRouter}, a \emph{CacofonixListener} and an
+\emph{EventSubscription}.
 
-\section{Softeware}
-We've built our system on top of the Scala (Akka) \emph{actors}
-library.  This library provides a message passing hierarcical
-architecture for the scala programming language.
+\subsection{TeamRoster}
+The \emph{TeamRoster} stores a list of teams that are participating
+in the olympic games.  When the \emph{TeamRoster} recieves a
+\emph{TeamMessage} it looks up the corresponding \emph{Team} and
+routes the message accordingly.  The \emph{TeamRoster} instructs that
+\emph{Team} able to send any reply message to the initial sender of
+the \emph{TeamMessage}.
+
+\subsection{EventRoster}
+The \emph{EventRoster} is very similar to the \emph{TeamRoster}: the
+\emph{EventRoster} stores a list of the events taking place at the
+olympics and is able to communicate with a number \emph{Event}
+classes.  Wwhen it receives an \emph{EventMessage}, it routes the
+message to the corresponding \emph{Event}.  It also instructs that
+\emph{Event} to send any reply to the initial sender of the
+\emph{EventMessage}.
+
+\subsection{TabletRequestRouter}
+The \emph{TabletRequestRouter} serves as a router that helps spread
+client request to various workers.  At initialization, the
+\emph{TabletRequestRouter} spawns 5 \emph{TabletRequestWorker}s to
+which it routes the messages that it receives.  These workers are
+asynchronous and allow our system to handle more simultaneous
+requests.  Each \emph{TabletReequestWorker} is able to communicate
+with the \emph{EventRoster} and \emph{TeamRoster}. If one of the
+\emph{TabletRequestWorkers} dies, the \emph{TabletRequestRouter} will
+spawn a new one in its place. The \emph{TabletRequestRouter} routes
+messages to the workers using round-robin-scheduling.
+
+\subsection{CacofonixListener}
+\emph{CacofonixListener} is very similar to a
+\emph{TabletRequestWorker}: it also stores is able to communicate with
+the \emph{TeamRoster} and the \emph{EventRoster}.  The difference
+between the \emph{CacofonixListener} and a \emph{TabletRequestWorker}
+is that only a special class--\emph{CacofonixClient}--is able to
+communicate with the \emph{CacofonixListener}.
+
+\subsection{EventSubscription}
+Each event has a corresponding \emph{EventSubscription} class. An
+\emph{EventSubscription} class is responsible for keeping track of who
+has subscribed to that event. When an \emph{EventSubscription} class
+receives an \emph{EventScore} update message, it sends corresponding
+update messages to each of its subscribers.  When it receives a
+\emph{Subscription} message, it stores the sender in its list of
+subscribers.
+
+\section{System Runtime Workflow}
+To begin running our system, we run the \emph{Olympics} class.  As
+described above, this class spawns the \emph{TeamRoster},
+\emph{EventRoster}, \emph{TabletRequestRouter},
+\emph{CacofonixListener} and \emph{EventSubscription} actors.  Once
+the system is in place, we start $n$ \emph{TabletClients}.  These
+clients are equipped with the \emph{getScore}, \emph{getMedalTally}
+and \emph{registerClient} methods. When a client calls its
+\emph{getScore} or \emph{getMedalTally} methods a corresponding
+\emph{EventMessage} containing an event name and a \emph{GetScore}
+object or a \emph{TeamMessage} containing a team name and a
+\emph{GetMedalTally} object is sent to the \emph{TabletRequestRouter}
+(which is then forwarded appropriately).  Upon receiving a message, each
+client prints the corresponding message to the screen.  When calling
+the \emph{registerClient} method, a \emph{Subscribe} message is
+generated for a particular event and then sent to the
+\emph{Subscription} actor.  From then on, whenever there are updates
+made to that event, an update will be sent back to the client.  In
+this way, our system can accomodate a client-pull and server-push
+architectures.
+
+In addition to the $n$ \emph{TabletClients}, we also spawn a
+\emph{CacofonixClient} actor.  This client is equipped with the
+\emph{setScore} and \emph{incrementMedalTally} methods.  Calling
+either of these methods generates either an \emph{EventMessage}
+containing an event name and a \emph{SetEventScore} object or a
+\emph{TeamMessage} containing a team name and an
+\emph{IncrementMedals} object.  Messages from the
+\emph{CacofonixClient} are always sent to the \emph{CacofonixListener}
+as described above.
+
+\section{Design, Bottlenecks and Potential Improvements}
+We tried separate concerns as much as possible so that implementation
+and debugging would be simplest.  As such, each our actors only
+handles a few message types (and we a few, extremely simple
+messge types).  We also wanted to make our system as
+asynchronous as possible so we made sure to include the
+\emph{TabletRequestRouter} and \emph{TableRequestWorkers} which can
+process messages in parallel.
+
+The main bottleneck we see in our system are our \emph{TeamRoster} and
+\emph{EventRoster} classes.  This is because, all messages having to
+do with any team or any event has to go through one of these classes.
+We could improve our system by making both the \emph{TeamRoster} and
+\emph{EventRoster} into routers (special Akka classes) so that they
+could handle messages in parallel.  Additionally, we'd need to
+implement a custom routing strategy that would look at the content of
+the message and route the message appropriately (e.g. if handling a
+\emph{GetScore} message for event $A$, the \emph{EventRoster} would
+route the message to the event class representing event $A$).
+
+We could also improve our system further by making it more fault
+tolerant.  Instead of simple watching the \emph{TabletRequestWorkers}
+and respawning them upon failure, we could watch classes like the
+\emph{TabletRequestRouters}, events and teams.
+
+\section{Software}
+We've built our system on top of the Akka \emph{actors} library.  This
+library provides a hierarchical message passing architecture for the
+Scala programming language.
+
+\section{How to Run}
 
 \end{document}
