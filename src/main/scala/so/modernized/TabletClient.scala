@@ -5,6 +5,7 @@ import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.util.Random
 
 /**
  * @author John Sullivan
@@ -85,5 +86,19 @@ object TabletClient {
 //    Thread.sleep(5000)
 //    client.shutdown()
 //    olympics.shutdown()
+  }
+
+  def randomTabletClient(teams:IndexedSeq[String], events:IndexedSeq[String], address:Address, freq:Long)(implicit rand:Random) {
+    def sample(strs:IndexedSeq[String]):String = strs(rand.nextInt(strs.size))
+
+    val tablet = new TabletClient(address)
+    tablet.registerClient(sample(events))
+    (0 to rand.nextInt(20)).foreach { _ =>
+      Thread.sleep(freq)
+      rand.nextInt(2) match {
+        case 0 => tablet.getScore(sample(events))
+        case 1 => tablet.getMedalTally(sample(events))
+      }
+    }
   }
 }
