@@ -4,7 +4,9 @@ import akka.actor.{Terminated, Props, Actor}
 import akka.routing.{RoundRobinRoutingLogic, Router, ActorRefRoutee}
 
 /**
- * @author John Sullivan
+ * The TabletRequestRouter uses a round-robin system
+ * to assign routing requests to workers that process those requests.
+ * It also manages the creation and restarting of workers.
  */
 class TabletRequestRouter extends Actor {
   var router = {
@@ -26,6 +28,10 @@ class TabletRequestRouter extends Actor {
   }
 }
 
+/**
+ * A TabletRequestWorker takes requests from tablets and routes them to the
+ * team or event roster as needed.
+ */
 class TabletRequestWorker extends Actor {
   val teamPath = context.system.actorSelection(context.system./("teams"))
   val eventPath = context.system.actorSelection(context.system./("events"))

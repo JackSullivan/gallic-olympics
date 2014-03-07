@@ -2,17 +2,20 @@ package so.modernized
 
 import akka.actor.{Props, Actor}
 
-/**
- * @author John Sullivan
- */
 trait TeamMessageType
 case class IncrementMedals(medalType:MedalType) extends TeamMessageType
-case object GetMedalTally extends TeamMessageType with ReadOnlyMessage
+case object GetMedalTally extends TeamMessageType
 
 case class TeamMessage(teamName:String, message:TeamMessageType)
+case class UnknownTeam(teamName:String)
 
 case class MedalTally(team:String, gold:Int, silver:Int, bronze:Int)
 
+/**
+ * The team object stores medal counts and responds to requests to
+ * read and write to them. It relies on TeamRoster to ensure that
+ * it receive the appropriate messages.
+ */
 object Team {
   def props(name:String): Props = Props(new Team(name))
 }
@@ -32,6 +35,12 @@ class Team(val name:String) extends Actor {
   }
 }
 
+/**
+ * The team roster serves as parents to all of the teams at the olympics
+ * and routes incoming requests to read and write to the appropriate team.
+ * If no team is found for a given request a message is sent back to the
+ * requester to that effect.
+ */
 object TeamRoster{
   def apply(teams:Iterable[String]):Props = Props(new TeamRoster(teams))
 }
@@ -45,7 +54,7 @@ class TeamRoster(teams:Iterable[String]) extends Actor {
   override def receive: Actor.Receive = {
     case TeamMessage(teamName, message) => context.child(teamName) match {
         case Some(team) => team.tell(message, sender())
-        case None => println("Team not found") //todo DO SOMETHING!!
+        case None => sender() ! UnknownTeam(teamName)
     }
   }
 }

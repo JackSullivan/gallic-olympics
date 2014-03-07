@@ -3,11 +3,14 @@ package so.modernized
 import akka.actor.{ActorRef, Actor, Props}
 import scala.collection.mutable
 
-/**
- * @author John Sullivan
- */
 case class Subscribe(eventName:String)
 
+
+/**
+ * EventSubscription stores references to all of the clients
+ * that subscribe to a given event and forwards event score
+ * updates to them when it receives them.
+ */
 object EventSubscription {
   def props(eventName:String):Props = Props(new EventSubscription(eventName))
 }
@@ -18,11 +21,16 @@ class EventSubscription(eventName:String) extends Actor {
   def receive: Actor.Receive = {
     case Subscribe(_) => subscribers += sender()
     case score:EventScore => subscribers.foreach { subscriber =>
-      subscriber ! score
+    subscriber ! score
     }
   }
 }
 
+/**
+ * EventSubscriptions receives subscribe requests for events and
+ * routes them, along with the original sender to the appropriate
+ * EventSubscription.
+ */
 object EventSubscriptions {
   def apply(events:Iterable[String]):Props = Props(new EventSubscriptions(events))
 }

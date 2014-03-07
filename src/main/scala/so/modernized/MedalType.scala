@@ -1,7 +1,7 @@
 package so.modernized
 
 /**
- * @author John Sullivan
+ * An enumaration of medals given at the olympics
  */
 trait MedalType
 case object Gold extends MedalType

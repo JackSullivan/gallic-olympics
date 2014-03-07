@@ -4,10 +4,8 @@ import akka.actor.{Props, Actor, ActorSystem}
 import com.typesafe.config.ConfigFactory
 
 /**
- * @author John Sullivan
+ * Governing Olympics class that stores the actor system.
  */
-trait ReadOnlyMessage
-
 class Olympics(teams:Iterable[String], events:Iterable[String]) {
 
   private val system = ActorSystem("olympics", ConfigFactory.load("server"))
@@ -17,15 +15,15 @@ class Olympics(teams:Iterable[String], events:Iterable[String]) {
   system.actorOf(Props[CacofonixListener], "cacofonix")
   system.actorOf(Props[TabletRequestRouter], "router")
   system.actorOf(EventSubscriptions(events), "subscriberRoster")
-  /*
-  val router = system.actorSelection("user/router")
-  val subscriber = system.actorSelection("user/subscriberRoster")
-  val listener = system.actorSelection("user/cacofonix")
-  */
+
   def shutdown() {system.shutdown()}
 
 }
 
+/**
+ * Listener class to receive messages from the Cacofonix process and route
+ * them to the appropriate Roster
+ */
 class CacofonixListener extends Actor {
   val teamPath = context.system.actorSelection(context.system./("teams"))
   val eventPath = context.system.actorSelection(context.system./("events"))

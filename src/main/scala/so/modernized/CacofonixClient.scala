@@ -8,7 +8,10 @@ import akka.util.Timeout
 import akka.remote.RemoteScope
 
 /**
- * @author John Sullivan
+ * This client takes an address that corresponds to the
+ * location of an olympics server and allows a cacofonix
+ * user to send write messages to the teams and events
+ * on that server.
  */
 class CacofonixClient(olympicsAddress: Address) {
 
@@ -20,7 +23,6 @@ class CacofonixClient(olympicsAddress: Address) {
   val remote = olympicsAddress.toString
 
   def shutdown() {system.shutdown()}
-
 
   private val listener = Await.result(system.actorSelection(remote + "/user/cacofonix").resolveOne(), 600.seconds)
 
