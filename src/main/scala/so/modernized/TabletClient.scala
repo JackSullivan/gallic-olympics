@@ -112,7 +112,7 @@ object TabletClient {
       Thread.sleep(freq)
       rand.nextInt(2) match {
         case 0 => tablet.getScore(sample(events))
-        case 1 => tablet.getMedalTally(sample(events))
+        case 1 => tablet.getMedalTally(sample(teams))
       }
     }
   }
