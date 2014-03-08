@@ -36,7 +36,13 @@ class CacofonixListener extends Actor {
   val eventPath = context.system.actorSelection(context.system./("events"))
 
   def receive: Actor.Receive = {
-    case teamMessage:TeamMessage => teamPath ! teamMessage
-    case eventMessage:EventMessage => eventPath ! eventMessage
+    case teamMessage:TeamMessage => {
+      println("cacofonix listener received a team message: %s" format teamMessage)
+      teamPath ! teamMessage
+    }
+    case eventMessage:EventMessage => {
+      println("cacofonix listener received an event message: %s" format eventMessage)
+      eventPath ! eventMessage
+    }
   }
 }

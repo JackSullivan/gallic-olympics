@@ -29,9 +29,18 @@ class Team(val name:String) extends Actor {
 
   override def receive: Actor.Receive = {
     case IncrementMedals(medalType, time) => medalType match {
-      case Gold => gold += 1
-      case Silver => silver += 1
-      case Bronze => bronze += 1
+      case Gold => {
+        gold += 1
+        println ("one more gold for %s! That makes %d".format(name, gold))
+      }
+      case Silver => {
+        silver += 1
+        println ("one more silver for %s! That makes %d".format(name, silver))
+      }
+      case Bronze => {
+        bronze += 1
+        println ("one more bronze for %s! That makes %d".format(name, bronze))
+      }
     }
     case GetMedalTally(time) => sender ! MedalTally(name, gold, silver, bronze, time)
   }
