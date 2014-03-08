@@ -27,10 +27,10 @@ class CacofonixClient(olympicsAddress: Address) {
   private val listener = Await.result(system.actorSelection(remote + "/user/cacofonix").resolveOne(), 600.seconds)
 
   def setScore(event:String, score:String) {
-    listener ! EventMessage(event, SetEventScore(score))
+    listener ! EventMessage(event, SetEventScore(score, System.currentTimeMillis()))
   }
 
   def incrementMedalTally(team:String, medalType:MedalType) {
-    listener ! TeamMessage(team, IncrementMedals(medalType))
+    listener ! TeamMessage(team, IncrementMedals(medalType, System.currentTimeMillis()))
   }
 }

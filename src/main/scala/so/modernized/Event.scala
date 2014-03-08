@@ -2,15 +2,17 @@ package so.modernized
 
 import akka.actor.{Props, Actor}
 
-trait EventMessageType
-case class SetEventScore(newScore:String) extends EventMessageType
-case object GetEventScore extends EventMessageType
+trait EventMessageType {
+  def initTime:Long
+}
+case class SetEventScore(newScore:String, initTime:Long) extends EventMessageType
+case class GetEventScore(initTime:Long) extends EventMessageType
 
 case class EventMessage(eventName:String, message:EventMessageType)
 
-case class EventScore(eventName:String, score:String)
+case class EventScore(eventName:String, score:String, initTime:Long)
 
-case class UnknownEvent(eventName: String)
+case class UnknownEvent(eventName: String, initTime:Long)
 
 
 /**
@@ -29,11 +31,11 @@ class Event(val name:String) extends Actor {
   var score:String = ""
 
   def receive: Actor.Receive = {
-    case SetEventScore(newScore) => {
+    case SetEventScore(newScore, initTime) => {
       score = newScore
-      context.system.actorSelection(subscriberPath./(name)) ! EventScore(name, score)
+      context.system.actorSelection(subscriberPath./(name)) ! EventScore(name, score, initTime)
     }
-    case GetEventScore => sender() ! EventScore(name, score)
+    case GetEventScore(initTime) => sender() ! EventScore(name, score, initTime)
   }
 }
 
@@ -56,7 +58,7 @@ class EventRoster(events:Iterable[String]) extends Actor {
   def receive: Actor.Receive = {
     case EventMessage(eventName, message) => { context.child(eventName) match {
       case Some(event) => event.tell(message, sender())
-      case None => sender ! UnknownEvent(eventName)
+      case None => sender ! UnknownEvent(eventName, message.initTime)
     }
     }
   }

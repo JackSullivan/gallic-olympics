@@ -1,6 +1,7 @@
 package so.modernized.runners
 
 import so.modernized._
+import akka.actor.Address
 
 /**
  * Created by akobren on 3/7/14.
@@ -8,8 +9,8 @@ import so.modernized._
 object Tester {
   def main(args:Array[String]) {
     val olympics = new Olympics(Seq("Gaul", "Rome", "Carthage", "Pritannia", "Lacadaemon"), Seq("Curling", "Slalom", "Skating"))
-    val client = new TabletClient(olympics)
-    val cacofonix = new CacofonixClient(olympics)
+    val client = new TabletClient(Address("akka.tcp", "olympics", "elnux4.cs.umass.edu", 2552))
+    val cacofonix = new CacofonixClient(Address("akka.tcp", "olympics", "elnux4.cs.umass.edu", 2552) )
 
     println("Legal Teams: Gaul, Rome, Carthage, Pritannia, Lacadaemon")
     println("Curling, Slalom, Skating")
@@ -59,5 +60,7 @@ object Tester {
     println("Cacofonix setting Curling score: Gaul 4, Rome 7, Carthage 5 - No Client Pull")
     cacofonix.setScore("Slalom", "Gaul 4, Rome 7, Carthage 5")
     Thread.sleep(2000)
+
+    olympics.shutdown()
   }
 }

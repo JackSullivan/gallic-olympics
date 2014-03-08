@@ -30,21 +30,35 @@ class TabletClient(remoteAddress: Address) {
   private val printer = system.actorOf(Props[TabletPrinter])
 
   def getScore(event:String) {
-    router.tell(EventMessage(event, GetEventScore), printer)
+    router.tell(EventMessage(event, GetEventScore(System.currentTimeMillis())), printer)
   }
   def getMedalTally(team:String) {
-    router.tell(TeamMessage(team, GetMedalTally), printer)
+    router.tell(TeamMessage(team, GetMedalTally(System.currentTimeMillis())), printer)
   }
   def registerClient(event:String) = {
-    subscriber.tell(Subscribe(event), printer)
+    subscriber.tell(Subscribe(event, System.currentTimeMillis()), printer)
   }
 }
 
 class TabletPrinter extends Actor {
   def receive: Actor.Receive = {
-    case EventScore(event, score) => println(s"Event: $event, Score: $score")
-    case MedalTally(team, gold, silver, bronze) => println(s"Team: $team, Gold: $gold, Silver: $silver, Bronze: $bronze")
-    case UnknownEvent(eventName) => println(s"There are not $eventName competitions at these olympics.")
+    case EventScore(event, score, initTime) => {
+      val latency = (System.currentTimeMillis() - initTime)/1000.0
+      println("Event: %s, Score: %s. Response took %.2f secs".format(event, score, latency))
+    }
+    case MedalTally(team, gold, silver, bronze, initTime) => {
+      val latency = (System.currentTimeMillis() - initTime)/1000.0
+      println("Team: %s, Gold: %s, Silver: %s, Bronze: %s. Response took %.2f secs".format(team, gold, silver, bronze, latency))
+    }
+    case UnknownEvent(eventName, initTime) => {
+      val latency = (System.currentTimeMillis() - initTime)/1000.0
+
+      println("There are not %s competitions at these olympics. Response took %.2f secs".format(eventName, latency))
+    }
+    case UnknownTeam(teamName, initTime) => {
+      val latency = (System.currentTimeMillis() - initTime)/1000.0
+      println("%s is not participating in these olympics. Response took %.2f secs".format(teamName, latency))
+    }
   }
 }
 

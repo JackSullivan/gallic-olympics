@@ -1,6 +1,6 @@
 package so.modernized
 
-import akka.actor.{Props, Actor, ActorSystem}
+import akka.actor.{PoisonPill, Props, Actor, ActorSystem}
 import com.typesafe.config.ConfigFactory
 
 /**
@@ -16,7 +16,14 @@ class Olympics(teams:Iterable[String], events:Iterable[String]) {
   system.actorOf(Props[TabletRequestRouter], "router")
   system.actorOf(EventSubscriptions(events), "subscriberRoster")
 
-  def shutdown() {system.shutdown()}
+  def shutdown() {
+    system.actorSelection("teams") ! PoisonPill
+    system.actorSelection("events") ! PoisonPill
+    system.actorSelection("cacofonix") ! PoisonPill
+    system.actorSelection("router") ! PoisonPill
+    system.actorSelection("subscriberRoster") ! PoisonPill
+    system.shutdown()
+  }
 
 }
 
