@@ -3,7 +3,7 @@ package so.modernized
 import akka.actor.{ActorRef, Actor, Props}
 import scala.collection.mutable
 
-case class Subscribe(eventName:String)
+case class Subscribe(eventName:String, initTime:Long)
 
 
 /**
@@ -19,7 +19,7 @@ class EventSubscription(eventName:String) extends Actor {
   val subscribers = new mutable.ArrayBuffer[ActorRef]
 
   def receive: Actor.Receive = {
-    case Subscribe(_) => subscribers += sender()
+    case Subscribe(_, _) => subscribers += sender()
     case score:EventScore => subscribers.foreach { subscriber =>
     subscriber ! score
     }
@@ -42,9 +42,9 @@ class EventSubscriptions(events:Iterable[String]) extends Actor {
   }
 
   def receive: Actor.Receive = {
-    case Subscribe(eventName) => context.child(eventName) match {
-      case Some(event) => event.tell(Subscribe(eventName), sender)
-      case None => sender ! UnknownEvent(eventName)
+    case Subscribe(eventName, initTime) => context.child(eventName) match {
+      case Some(event) => event.tell(Subscribe(eventName, initTime), sender)
+      case None => sender ! UnknownEvent(eventName, initTime)
     }
   }
 }

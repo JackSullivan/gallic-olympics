@@ -2,14 +2,16 @@ package so.modernized
 
 import akka.actor.{Props, Actor}
 
-trait TeamMessageType
-case class IncrementMedals(medalType:MedalType) extends TeamMessageType
-case object GetMedalTally extends TeamMessageType
+trait TeamMessageType {
+  def initTime:Long
+}
+case class IncrementMedals(medalType:MedalType, initTime:Long) extends TeamMessageType
+case class GetMedalTally(initTime:Long) extends TeamMessageType
 
 case class TeamMessage(teamName:String, message:TeamMessageType)
-case class UnknownTeam(teamName:String)
+case class UnknownTeam(teamName:String, initTime:Long)
 
-case class MedalTally(team:String, gold:Int, silver:Int, bronze:Int)
+case class MedalTally(team:String, gold:Int, silver:Int, bronze:Int, initTime:Long)
 
 /**
  * The team object stores medal counts and responds to requests to
@@ -26,12 +28,12 @@ class Team(val name:String) extends Actor {
   var bronze:Int = 0
 
   override def receive: Actor.Receive = {
-    case IncrementMedals(medalType) => medalType match {
+    case IncrementMedals(medalType, time) => medalType match {
       case Gold => gold += 1
       case Silver => silver += 1
       case Bronze => bronze += 1
     }
-    case GetMedalTally => sender ! MedalTally(name, gold, silver, bronze)
+    case GetMedalTally(time) => sender ! MedalTally(name, gold, silver, bronze, time)
   }
 }
 
@@ -54,7 +56,7 @@ class TeamRoster(teams:Iterable[String]) extends Actor {
   override def receive: Actor.Receive = {
     case TeamMessage(teamName, message) => context.child(teamName) match {
         case Some(team) => team.tell(message, sender())
-        case None => sender() ! UnknownTeam(teamName)
+        case None => sender() ! UnknownTeam(teamName, message.initTime)
     }
   }
 }
