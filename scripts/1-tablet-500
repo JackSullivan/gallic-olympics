@@ -1,0 +1,21 @@
+[INFO] [03/07/2014 20:27:45.151] [main] [Remoting] Starting remoting
+[INFO] [03/07/2014 20:27:45.692] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://client@128.119.243.168:33534]
+Connecting to remote server at akka.tcp://olympics@elnux4.cs.umass.edu:2552
+I just asked about the score for Biathlon
+Event: Biathlon, Score: Carthage 0, Rome 2, Gaul 0. Response took 0.02 secs
+I just asked about the score for Biathlon
+Event: Biathlon, Score: Carthage 0, Rome 3, Gaul 0. Response took 0.01 secs
+I just asked about the score for Biathlon
+Event: Biathlon, Score: Carthage 0, Rome 3, Gaul 0. Response took 0.01 secs
+I just asked about the score for Biathlon
+Event: Biathlon, Score: Carthage 0, Rome 3, Gaul 0. Response took 0.01 secs
+I just asked about the score for Curling
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 2, Rome 1, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 3, Rome 1, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 4, Rome 1, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 5, Rome 1, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 6, Rome 1, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 7, Rome 1, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 7, Rome 1, Gaul 1. Response took 0.01 secs

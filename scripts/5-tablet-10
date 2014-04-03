@@ -1,0 +1,148 @@
+[INFO] [03/07/2014 20:39:06.374] [main] [Remoting] Starting remoting
+[INFO] [03/07/2014 20:39:09.472] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://client@128.119.243.168:42065]
+Connecting to remote server at akka.tcp://olympics@elnux4.cs.umass.edu:2552
+I just asked about the score for Curling
+I just asked about the medal tally for Carthage
+I just asked about the medal tally for Carthage
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.09 secs
+I just asked about the score for Biathlon
+I just asked about the score for Slalom
+I just asked about the score for Biathlon
+I just asked about the score for Curling
+Team: Carthage, Gold: 0, Silver: 0, Bronze: 2. Response took 0.14 secs
+Team: Carthage, Gold: 0, Silver: 0, Bronze: 2. Response took 0.13 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.14 secs
+There are not Slalom competitions at these olympics. Response took 0.17 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.19 secs
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.19 secs
+Event: Curling, Score: Carthage 1, Rome 1, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 2, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 3, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 4, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 5, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 6, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 7, Gaul 0. Response took 0.01 secs
+[INFO] [03/07/2014 20:39:06.388] [main] [Remoting] Starting remoting
+[INFO] [03/07/2014 20:39:09.490] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://client@128.119.243.168:41424]
+Connecting to remote server at akka.tcp://olympics@elnux4.cs.umass.edu:2552
+I just asked about the score for Biathlon
+I just asked about the score for Biathlon
+I just asked about the score for Curling
+I just asked about the score for Slalom
+I just asked about the score for Curling
+I just asked about the medal tally for Rome
+I just asked about the score for Slalom
+I just asked about the score for Biathlon
+There are not Slalom competitions at these olympics. Response took 0.11 secs
+I just asked about the medal tally for Rome
+I just asked about the medal tally for Carthage
+I just asked about the medal tally for Rome
+I just asked about the score for Curling
+I just asked about the score for Slalom
+I just asked about the score for Biathlon
+I just asked about the score for Slalom
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.20 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.18 secs
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.20 secs
+There are not Slalom competitions at these olympics. Response took 0.21 secs
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.21 secs
+Team: Rome, Gold: 2, Silver: 3, Bronze: 3. Response took 0.24 secs
+There are not Slalom competitions at these olympics. Response took 0.24 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.24 secs
+Team: Rome, Gold: 2, Silver: 3, Bronze: 3. Response took 0.25 secs
+Team: Carthage, Gold: 0, Silver: 0, Bronze: 2. Response took 0.25 secs
+Team: Rome, Gold: 2, Silver: 3, Bronze: 3. Response took 0.26 secs
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.26 secs
+There are not Slalom competitions at these olympics. Response took 0.26 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.25 secs
+There are not Slalom competitions at these olympics. Response took 0.24 secs
+[INFO] [03/07/2014 20:39:06.494] [main] [Remoting] Starting remoting
+[INFO] [03/07/2014 20:39:09.556] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://client@128.119.243.168:45951]
+Connecting to remote server at akka.tcp://olympics@elnux4.cs.umass.edu:2552
+I just asked about the score for Curling
+I just asked about the medal tally for Gaul
+I just asked about the score for Biathlon
+I just asked about the medal tally for Gaul
+I just asked about the medal tally for Gaul
+I just asked about the score for Slalom
+I just asked about the score for Slalom
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.08 secs
+I just asked about the score for Curling
+I just asked about the score for Slalom
+I just asked about the score for Curling
+I just asked about the score for Slalom
+I just asked about the score for Curling
+Team: Gaul, Gold: 0, Silver: 1, Bronze: 3. Response took 0.13 secs
+I just asked about the medal tally for Carthage
+I just asked about the score for Slalom
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.12 secs
+Team: Gaul, Gold: 0, Silver: 1, Bronze: 3. Response took 0.13 secs
+Team: Gaul, Gold: 0, Silver: 1, Bronze: 3. Response took 0.14 secs
+There are not Slalom competitions at these olympics. Response took 0.17 secs
+There are not Slalom competitions at these olympics. Response took 0.16 secs
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.16 secs
+There are not Slalom competitions at these olympics. Response took 0.15 secs
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.14 secs
+There are not Slalom competitions at these olympics. Response took 0.13 secs
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.13 secs
+Team: Carthage, Gold: 0, Silver: 0, Bronze: 2. Response took 0.12 secs
+There are not Slalom competitions at these olympics. Response took 0.13 secs
+Event: Curling, Score: Carthage 1, Rome 1, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 2, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 3, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 4, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 5, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 6, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 7, Gaul 0. Response took 0.01 secs
+[INFO] [03/07/2014 20:39:06.116] [main] [Remoting] Starting remoting
+[INFO] [03/07/2014 20:39:09.231] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://client@128.119.243.168:43630]
+Connecting to remote server at akka.tcp://olympics@elnux4.cs.umass.edu:2552
+I just asked about the medal tally for Rome
+I just asked about the medal tally for Carthage
+I just asked about the medal tally for Carthage
+I just asked about the medal tally for Rome
+Team: Rome, Gold: 2, Silver: 2, Bronze: 3. Response took 0.12 secs
+Team: Carthage, Gold: 0, Silver: 0, Bronze: 2. Response took 0.12 secs
+Team: Carthage, Gold: 0, Silver: 0, Bronze: 2. Response took 0.11 secs
+Team: Rome, Gold: 2, Silver: 2, Bronze: 3. Response took 0.12 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 1. Response took 0.02 secs
+Event: Biathlon, Score: Carthage 2, Rome 1, Gaul 1. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 2, Rome 1, Gaul 2. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 3, Rome 1, Gaul 2. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 4, Rome 1, Gaul 2. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 5, Rome 1, Gaul 2. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 5, Rome 2, Gaul 2. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 5, Rome 3, Gaul 2. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 5, Rome 4, Gaul 2. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 5, Rome 5, Gaul 2. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 5, Rome 5, Gaul 3. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 5, Rome 6, Gaul 3. Response took 0.01 secs
+Event: Biathlon, Score: Carthage 5, Rome 6, Gaul 4. Response took 0.01 secs
+[INFO] [03/07/2014 20:39:06.389] [main] [Remoting] Starting remoting
+[INFO] [03/07/2014 20:39:09.507] [main] [Remoting] Remoting started; listening on addresses :[akka.tcp://client@128.119.243.168:39194]
+Connecting to remote server at akka.tcp://olympics@elnux4.cs.umass.edu:2552
+I just asked about the score for Curling
+I just asked about the score for Biathlon
+I just asked about the medal tally for Gaul
+I just asked about the score for Slalom
+I just asked about the medal tally for Gaul
+I just asked about the score for Curling
+I just asked about the score for Biathlon
+I just asked about the score for Biathlon
+I just asked about the medal tally for Gaul
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.18 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.20 secs
+Team: Gaul, Gold: 0, Silver: 1, Bronze: 3. Response took 0.25 secs
+There are not Slalom competitions at these olympics. Response took 0.28 secs
+Team: Gaul, Gold: 0, Silver: 1, Bronze: 3. Response took 0.28 secs
+Event: Curling, Score: Carthage 1, Rome 0, Gaul 0. Response took 0.29 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.30 secs
+Event: Biathlon, Score: Carthage 2, Rome 0, Gaul 0. Response took 0.29 secs
+Team: Gaul, Gold: 0, Silver: 1, Bronze: 3. Response took 0.28 secs
+Event: Curling, Score: Carthage 1, Rome 1, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 2, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 3, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 4, Gaul 0. Response took 0.02 secs
+Event: Curling, Score: Carthage 1, Rome 5, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 6, Gaul 0. Response took 0.01 secs
+Event: Curling, Score: Carthage 1, Rome 7, Gaul 0. Response took 0.01 secs
