@@ -22,6 +22,8 @@ class CacofonixClient(olympicsAddress: Address) {
   val system = ActorSystem("client", ConfigFactory.load("client"))
   val remote = olympicsAddress.toString
 
+  println(s"Connecting to remote server at $remote")
+
   def shutdown() {system.shutdown()}
 
   private val listener = Await.result(system.actorSelection(remote + "/user/cacofonix").resolveOne(), 600.seconds)

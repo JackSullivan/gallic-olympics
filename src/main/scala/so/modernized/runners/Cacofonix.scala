@@ -12,8 +12,8 @@ object Cacofonix {
   def main(args: Array[String]) {
     val host = args(0)
     val port = args(1).toInt
-    val events = args(2).split('|')
-    val teams = args(3).split('|')
+    val teams = args(2).split('|')
+    val events = args(3).split('|')
 
     val cacofonix = new CacofonixClient(Address("akka.tcp","olympics", host, port))
     val eventToScore = new mutable.HashMap[String, mutable.HashMap[String, Int]]
@@ -35,7 +35,9 @@ object Cacofonix {
         val score = scores(team)
         scores.update(team, score + 1)
         cacofonix.setScore(event, scores.toSeq.map({ case (t,s) => t + " " + s }).mkString(", "))
+        println("Cacofonix reported %s for %s".format(scores.toSeq.map({ case (t,s) => t + " " + s }).mkString(", "), event))
       } else {
+        println("Cacofonix reported on a medal for %s".format(team))
         cacofonix.incrementMedalTally(team, Random.nextInt(3) match {
           case 0 => Bronze
           case 1 => Silver

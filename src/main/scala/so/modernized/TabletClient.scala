@@ -111,8 +111,16 @@ object TabletClient {
     (0 to rand.nextInt(20)).foreach { _ =>
       Thread.sleep(freq)
       rand.nextInt(2) match {
-        case 0 => tablet.getScore(sample(events))
-        case 1 => tablet.getMedalTally(sample(events))
+        case 0 => {
+          val event = sample(events)
+          println("I just asked about the score for %s".format(event))
+          tablet.getScore(event)
+        }
+        case 1 => {
+          val team = sample(teams)
+          println("I just asked about the medal tally for %s".format(team))
+          tablet.getMedalTally(team)
+        }
       }
     }
   }

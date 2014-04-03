@@ -6,8 +6,11 @@ import so.modernized.Olympics
  * @author John Sullivan
  */
 object OlympicServer {
+
   def main(args: Array[String]) {
-    val olympics = new Olympics(Seq("Gaul", "Rome", "Carthage", "Pritannia", "Lacadaemon"), Seq("Curling", "Biathlon", "Piathlon"))
+    val teams = args(0).split('|')
+    val events = args(1).split('|')
+    val olympics = new Olympics(teams, events)
     println("Let the games begin!")
   }
 }
